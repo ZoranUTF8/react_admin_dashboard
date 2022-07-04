@@ -1,5 +1,11 @@
 import "./home.scss";
-import { Sidebar, Navbar, Widget } from "../../components";
+import {
+  Sidebar,
+  Navbar,
+  Widget,
+  FeaturedCharts,
+  NormalCharts,
+} from "../../components";
 
 const Home = () => {
   return (
@@ -15,7 +21,10 @@ const Home = () => {
           <Widget type="balance" />
         </div>
 
-        <div className="charts"></div>
+        <div className="charts">
+          <FeaturedCharts />
+          <NormalCharts />
+        </div>
       </div>
     </div>
   );
