@@ -8,6 +8,12 @@
 		},
 		{
 			"path": "../../../../iHave"
+		},
+		{
+			"path": "../../../../OOP_JavaScript"
 		}
-	]
+	],
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "OOP_JavaScript"
+	}
 }
