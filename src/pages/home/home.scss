@@ -1,5 +1,6 @@
 .home {
     display: flex;
+    flex-wrap: wrap;
 
     .homeContainer {
         flex: 6;
@@ -8,14 +9,13 @@
         .charts {
             display: flex;
             padding: 20px;
-            gap: 20px
+            gap: 20px;
         }
 
         .charts {
             padding: 5px 20px;
+            flex-wrap: wrap;
         }
+
     }
-
-
-
 }
