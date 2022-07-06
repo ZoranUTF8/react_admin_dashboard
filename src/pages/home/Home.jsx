@@ -5,6 +5,7 @@ import {
   Widget,
   FeaturedCharts,
   NormalCharts,
+  TableList,
 } from "../../components";
 
 const Home = () => {
@@ -22,6 +23,10 @@ const Home = () => {
         <div className="charts">
           <FeaturedCharts />
           <NormalCharts title="Last 6 Months (Revenue)" aspect={2 / 1} />
+        </div>
+        <div className="listContainer">
+          <div className="listTitle">Latest transactions</div>
+          <TableList />
         </div>
       </div>
     </div>
