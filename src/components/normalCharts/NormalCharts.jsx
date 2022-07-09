@@ -21,7 +21,6 @@ const data = [
 const NormalCharts = ({ aspect, title }) => {
   return (
     <div className="chart">
-    
       <div className="title">{title}</div>
       <ResponsiveContainer width="100%" aspect={aspect}>
         <AreaChart
