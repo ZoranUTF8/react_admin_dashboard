@@ -5,7 +5,13 @@
     min-height: 100vh;
     background-color: #fff;
 
+    .linkComponent {
+        text-decoration: none;
+    }
+
     .top {
+        text-decoration: none;
+
         height: 50px;
         display: flex;
         align-items: center;

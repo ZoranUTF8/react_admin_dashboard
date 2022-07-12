@@ -1,4 +1,5 @@
 import "./sidebar.scss";
+import { Link } from "react-router-dom";
 //? Material icons
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import GroupIcon from "@mui/icons-material/Group";
@@ -17,7 +18,9 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <div className="top">
-        <span className="logo">YourDash</span>
+        <Link to="/" className="linkComponent">
+          <span className="logo">YourDash</span>
+        </Link>
       </div>
 
       <hr />
@@ -30,14 +33,20 @@ function Sidebar() {
             <span>Dashboard</span>
           </li>
           <p className="title">LISTS</p>
-          <li>
-            <GroupIcon className="icon" />
-            <span>Users</span>
-          </li>
-          <li>
-            <CategoryIcon className="icon" />
-            <span>Products</span>
-          </li>
+          <Link to="/users" className="linkComponent">
+            <li>
+              <GroupIcon className="icon" />
+              <span>Users</span>
+            </li>
+          </Link>
+
+          <Link to="/products" className="linkComponent">
+            <li>
+              <CategoryIcon className="icon" />
+              <span>Products</span>
+            </li>
+          </Link>
+
           <li>
             <InventoryIcon className="icon" />
             <span>Orders</span>
