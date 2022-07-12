@@ -6,7 +6,6 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-
           <Route path="/">
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
@@ -14,16 +13,15 @@ function App() {
             <Route path="users">
               <Route index element={<List />} />
               <Route path=":userId" element={<Single />} />
-              <Route path="new" element={<New />} />
+              <Route path="new" element={<New title={"Add new user"} />} />
             </Route>
 
             <Route path="products">
               <Route index element={<List />} />
               <Route path=":productId" element={<Single />} />
-              <Route path="new" element={<New />} />
+              <Route path="new" element={<New title={"Add new user"} />} />
             </Route>
           </Route>
-
         </Routes>
       </BrowserRouter>
     </div>
