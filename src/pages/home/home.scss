@@ -1,6 +1,5 @@
 .home {
     display: flex;
-    flex-wrap: wrap;
 
     .homeContainer {
         flex: 6;
@@ -23,7 +22,7 @@
             padding: 20px;
             margin: 20px;
 
-            .listTitle{
+            .listTitle {
                 font-weight: 500;
                 color: gray;
                 margin-bottom: 15px;

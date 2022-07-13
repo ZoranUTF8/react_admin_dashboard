@@ -7,8 +7,12 @@ import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import ChatIcon from "@mui/icons-material/Chat";
 import ViewListIcon from "@mui/icons-material/ViewList";
+import { useContext } from "react";
+import { DarkModeContext } from "../../context/darkModeContext";
 
 function Navbar() {
+  const { dispatch } = useContext(DarkModeContext);
+
   return (
     <div className="navbar">
       <div className="wrapper">
@@ -23,7 +27,10 @@ function Navbar() {
             English
           </div>
           <div className="item">
-            <NightlightIcon className="icon" />
+            <NightlightIcon
+              className="icon"
+              onClick={() => dispatch({ type: "TOGGLE" })}
+            />
           </div>
           <div className="item">
             <FullscreenIcon className="icon" />
@@ -40,7 +47,11 @@ function Navbar() {
             <ViewListIcon className="icon" />
           </div>
           <div className="item">
-           <img src="https://imat.org.mx/images/people/user-login.png" alt="userAvatar" className="userAvatar" />
+            <img
+              src="https://imat.org.mx/images/people/user-login.png"
+              alt="userAvatar"
+              className="userAvatar"
+            />
           </div>
         </div>
       </div>

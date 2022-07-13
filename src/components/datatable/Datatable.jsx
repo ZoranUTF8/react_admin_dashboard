@@ -16,12 +16,11 @@ const Datatable = () => {
         return (
           <div className="cellAction">
             <Link to="/users/test" className="linkComponent">
-              <div className="viewButton">View</div>
+              <div className="viewButton"> View </div>{" "}
             </Link>
-
             <Link to="/users/test" className="linkComponent">
-              <div className="deleteButton">Delete</div>
-            </Link>
+              <div className="deleteButton"> Delete </div>{" "}
+            </Link>{" "}
           </div>
         );
       },
@@ -32,10 +31,11 @@ const Datatable = () => {
     <div className="datatable">
       <div className="datatableTitle">
         <Link to="/users/new" className="linkComponent">
-          Add New User
-        </Link>
-      </div>
+          Add New User{" "}
+        </Link>{" "}
+      </div>{" "}
       <DataGrid
+        className="dataGrid"
         rows={userRows}
         columns={userColumns.concat(actionColumn)}
         pageSize={9}
