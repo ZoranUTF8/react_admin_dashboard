@@ -16,7 +16,7 @@ const firebaseConfig = {
   measurementId: "G-GK0NZ8FGBM",
 };
 
-//? Firebase operations
+//? Firebase operations 
 
 export const handleFirebaseLogin = ({ userPassword, userEmail }) => {
   return new Promise((resolve, reject) => {

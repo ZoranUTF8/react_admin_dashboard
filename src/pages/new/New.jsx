@@ -18,6 +18,7 @@ function New({ title }) {
   const [user, setUser] = useState({});
   const [disabledButton, setDisabledButton] = useState(false);
 
+  // fix later
   // useEffect(() => {
   //   if (file) {
   //     uploadFileToFBStorage(file).then((res) =>
