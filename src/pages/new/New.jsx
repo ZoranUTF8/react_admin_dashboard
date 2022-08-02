@@ -1,45 +1,66 @@
 import "./new.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sidebar, Navbar } from "../../components";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { userInputs } from "../../data/formSource";
 import {
-  createUserAndSaveToFB,
-  uploadFileToFBStorage,
-} from "../../firebase/firebase";
-import { useEffect } from "react";
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db, auth } from "../../firebase/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 function New({ title }) {
   const [file, setFile] = useState("");
   const [user, setUser] = useState({});
   const [disabledButton, setDisabledButton] = useState(false);
 
-  useEffect(() => {
-    if (file) {
-      uploadFileToFBStorage(file).then((res) =>
-        setUser((prev) => ({
-          ...prev,
-          img: res.imgUrl,
-        }))
-      );
-    }
-  }, [file]);
+  // useEffect(() => {
+  //   if (file) {
+  //     uploadFileToFBStorage(file).then((res) =>
+  //       setUser((prev) => ({
+  //         ...prev,
+  //         img: res.imgUrl,
+  //       }))
+  //     );
+  //   }
+  // }, [file]);
 
   const handleFormChange = (e) => {
-    const inputId = e.target.id;
+    const inputName = e.target.id;
     const inputValue = e.target.value;
-
     setUser({
       ...user,
-      [inputId]: inputValue,
+      [inputName]: inputValue,
     });
+    
   };
 
+  //* on submit create user and add to users firestore
   const handleSubmit = async (e) => {
-    setDisabledButton(true);
     e.preventDefault();
-    createUserAndSaveToFB(user);
-    setDisabledButton(false);
+
+    try {
+      //? Create new user
+      
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        user.Email,
+        user.Password
+      );
+
+      await setDoc(doc(db, "users", res.user.uid), {
+        ...user,
+        createdAt: serverTimestamp(),
+      });
+    } catch (error) {
+      console.log("====================================");
+      console.log(error);
+      console.log("====================================");
+    }
   };
 
   return (
@@ -48,8 +69,8 @@ function New({ title }) {
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1> {title} </h1>{" "}
-        </div>{" "}
+          <h1> {title} </h1>
+        </div>
         <div className="bottom">
           <div className="left">
             <img
@@ -60,25 +81,25 @@ function New({ title }) {
               }
               alt="user image"
             />
-          </div>{" "}
+          </div>
           <div className="right">
             <form onSubmit={(e) => handleSubmit(e)}>
-              {" "}
               {userInputs.map((input) => (
                 <div className="formInput" key={input.id}>
-                  <label> {input.label} </label>{" "}
+                  <label> {input.label} </label>
                   <input
+                    name={input.label}
                     id={input.id}
                     type={input.type}
                     placeholder={input.placeholder}
                     onChange={(e) => handleFormChange(e)}
-                  />{" "}
+                  />
                 </div>
               ))}
               <div className="formInput">
                 <label htmlFor="fileUpload">
                   Image: <UploadFileIcon className="fileUploadIcon" />
-                </label>{" "}
+                </label>
                 <input
                   type="file"
                   id="fileUpload"
@@ -86,13 +107,13 @@ function New({ title }) {
                     display: "none",
                   }}
                   onChange={(e) => setFile(e.target.files[0])}
-                />{" "}
-              </div>{" "}
-              <button disabled={disabledButton}> Add </button>{" "}
-            </form>{" "}
-          </div>{" "}
-        </div>{" "}
-      </div>{" "}
+                />
+              </div>
+              <button disabled={disabledButton}> Add </button>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
