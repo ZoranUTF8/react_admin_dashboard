@@ -1,22 +1,76 @@
 import "./new.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Sidebar, Navbar } from "../../components";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { userInputs } from "../../data/formSource";
+import {
+  collection,
+  addDoc,
+  doc,
+  setDoc,
+  serverTimestamp,
+} from "firebase/firestore";
+import { db, auth } from "../../firebase/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 function New({ title }) {
   const [file, setFile] = useState("");
+  const [user, setUser] = useState({});
+  const [disabledButton, setDisabledButton] = useState(false);
 
-  console.log("====================================");
-  console.log(file);
-  console.log("====================================");
+  // fix later
+  // useEffect(() => {
+  //   if (file) {
+  //     uploadFileToFBStorage(file).then((res) =>
+  //       setUser((prev) => ({
+  //         ...prev,
+  //         img: res.imgUrl,
+  //       }))
+  //     );
+  //   }
+  // }, [file]);
+
+  const handleFormChange = (e) => {
+    const inputName = e.target.id;
+    const inputValue = e.target.value;
+    setUser({
+      ...user,
+      [inputName]: inputValue,
+    });
+    
+  };
+
+  //* on submit create user and add to users firestore
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      //? Create new user
+      
+      const res = await createUserWithEmailAndPassword(
+        auth,
+        user.Email,
+        user.Password
+      );
+
+      await setDoc(doc(db, "users", res.user.uid), {
+        ...user,
+        createdAt: serverTimestamp(),
+      });
+    } catch (error) {
+      console.log("====================================");
+      console.log(error);
+      console.log("====================================");
+    }
+  };
+
   return (
     <div className="new">
       <Sidebar />
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>{title}</h1>
+          <h1> {title} </h1>
         </div>
         <div className="bottom">
           <div className="left">
@@ -30,14 +84,19 @@ function New({ title }) {
             />
           </div>
           <div className="right">
-            <form>
+            <form onSubmit={(e) => handleSubmit(e)}>
               {userInputs.map((input) => (
                 <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input type={input.type} placeholder={input.placeholder} />
+                  <label> {input.label} </label>
+                  <input
+                    name={input.label}
+                    id={input.id}
+                    type={input.type}
+                    placeholder={input.placeholder}
+                    onChange={(e) => handleFormChange(e)}
+                  />
                 </div>
               ))}
-
               <div className="formInput">
                 <label htmlFor="fileUpload">
                   Image: <UploadFileIcon className="fileUploadIcon" />
@@ -45,11 +104,13 @@ function New({ title }) {
                 <input
                   type="file"
                   id="fileUpload"
-                  style={{ display: "none" }}
+                  style={{
+                    display: "none",
+                  }}
                   onChange={(e) => setFile(e.target.files[0])}
                 />
               </div>
-              <button>Send</button>
+              <button disabled={disabledButton}> Add </button>
             </form>
           </div>
         </div>
