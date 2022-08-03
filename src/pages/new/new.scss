@@ -57,12 +57,12 @@
                             border-bottom: 1px solid gray;
                         }
 
-                        .fileUploadIcon{
+                        .fileUploadIcon {
                             cursor: pointer;
                         }
                     }
 
-                    button{
+                    button {
                         width: 200px;
                         padding: 10px;
                         border: none;
@@ -70,7 +70,11 @@
                         color: #fff;
                         cursor: pointer;
                         font-weight: bold;
-                        
+
+                        &:disabled {
+                            background-color: gray;
+                            cursor: not-allowed;
+                        }
                     }
                 }
             }

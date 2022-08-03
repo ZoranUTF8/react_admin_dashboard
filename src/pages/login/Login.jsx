@@ -3,6 +3,7 @@ import { useState, useContext } from "react";
 import { handleFirebaseLogin } from "../../firebase/firebase";
 import { UserContext } from "../../context/userContext";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const { dispatch } = useContext(UserContext);
@@ -21,10 +22,19 @@ const Login = () => {
       });
 
       if (user) {
+        toast.success("Logged in, transfering in 3 seconds...", {
+          position: "bottom-right",
+          autoClose: 3000,
+        });
         dispatch({ type: "LOGIN", payload: { user } });
-        navigate("/");
+        setTimeout(() => {
+          navigate("/");
+        }, 4000);
       }
     } catch (error) {
+      toast.error("Wrong email or password", {
+        position: "bottom-right",
+      });
       const errorMessage = error.code + error.message;
       setError(errorMessage);
     }
