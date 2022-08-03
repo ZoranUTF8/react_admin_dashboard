@@ -79,6 +79,7 @@ function New({ title }) {
     const inputValue = e.target.value;
     setUser({
       ...user,
+      createdAt: serverTimestamp(),
       [inputName]: inputValue,
     });
   };
