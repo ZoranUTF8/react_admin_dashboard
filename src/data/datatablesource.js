@@ -28,7 +28,11 @@ export const userColumns = [
     headerName: "Doj",
     width: 230,
     renderCell: (params) => {
-      return <div className="">{params.row.createdAt}</div>;
+      return (
+        <div className="">
+          {new Date(params.row.createdAt.seconds * 1000).getFullYear()}
+        </div>
+      );
     },
   },
   // {
