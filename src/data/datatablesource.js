@@ -23,18 +23,14 @@ export const userColumns = [
     headerName: "Country",
     width: 130,
   },
-  {
-    field: "createdAt",
-    headerName: "Doj",
-    width: 230,
-    renderCell: (params) => {
-      return (
-        <div className="">
-          {new Date(params.row.createdAt.seconds * 1000).getFullYear()}
-        </div>
-      );
-    },
-  },
+  // {
+  //   field: "createdAt",
+  //   headerName: "Doj",
+  //   width: 230,
+  //   renderCell: (params) => {
+  //     return <div>{new Date(params.row.createdAt.seconds * 1000)}</div>;
+  //   },
+  // },
   // {
 
   //   field: "createdAt",

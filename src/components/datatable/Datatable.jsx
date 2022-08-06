@@ -7,48 +7,89 @@ import { userColumns } from "../../data/datatablesource";
 // import { userRows } from "../../data/datatablesource";
 import { Link } from "react-router-dom";
 
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  deleteDoc,
+  onSnapshot,
+} from "firebase/firestore";
 import { db } from "../../firebase/firebase";
-import { list } from "firebase/storage";
 
 const Datatable = () => {
   const [userData, setUserData] = useState([]);
 
   //? fetch data on mount
   useEffect(() => {
-    const fetchTableData = async () => {
-      let dataList = [];
-      try {
-        const querySnapshot = await getDocs(collection(db, "users"));
-        querySnapshot.forEach((doc) => {
-          dataList.push({ id: doc.id, ...doc.data() });
+    //? We can fetch data or we can use the realtime database listener
+    // const fetchTableData = async () => {
+    //   let dataList = [];
+    //   try {
+    //     const querySnapshot = await getDocs(collection(db, "users"));
+    //     querySnapshot.forEach((doc) => {
+    //       dataList.push({ id: doc.id, ...doc.data() });
+    //     });
+    //     setUserData(dataList);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // };
+    // fetchTableData();
+
+    //? Realtime db view ( no need to refresh the page)
+
+    const unsub = onSnapshot(
+      collection(db, "users"),
+      (snapShot) => {
+        let list = [];
+
+        snapShot.docs.forEach((doc) => {
+          list.push({ id: doc.id, ...doc.data() });
         });
-        setUserData(dataList);
+        setUserData(list);
+      },
+      (error) => {
         console.log("====================================");
-        console.log(userData);
-        console.log("====================================");
-      } catch (error) {
         console.log(error);
+        console.log("====================================");
       }
+    );
+
+    return () => {
+      unsub();
     };
-    fetchTableData();
   }, []);
 
+  //* Delete function
+  async function deleteUser(userId) {
+    try {
+      await deleteDoc(doc(db, "users", userId));
+      console.log("deleted");
+      setUserData(userData.filter((user) => user.id !== userId));
+    } catch (error) {
+      console.log("====================================");
+      console.log(error);
+      console.log("====================================");
+    }
+  }
   //* Action buttons in the table
   const actionColumn = [
     {
       field: "action",
       headerName: "Action",
       width: 200,
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <div className="cellAction">
             <Link to="/users/test" className="linkComponent">
               <div className="viewButton"> View </div>{" "}
             </Link>
-            <Link to="/users/test" className="linkComponent">
-              <div className="deleteButton"> Delete </div>
-            </Link>
+            <div
+              className="deleteButton"
+              onClick={() => deleteUser(params.row.id)}
+            >
+              Delete
+            </div>
           </div>
         );
       },

@@ -165,8 +165,7 @@ function New({ title }) {
               <button
                 disabled={uploadPercentage !== null && uploadPercentage < 100}
               >
-                {" "}
-                Add{" "}
+                Add
               </button>
             </form>
           </div>
