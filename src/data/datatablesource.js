@@ -28,15 +28,14 @@ export const userColumns = [
   //   headerName: "Doj",
   //   width: 230,
   //   renderCell: (params) => {
-  //     return <div>{new Date(params.row.createdAt.seconds * 1000)}</div>;
+  //     return (
+  //       <div>
+  //         <p>{params.row.createdAt.toDate()}</p>
+  //       </div>
+  //     );
   //   },
   // },
-  // {
-
-  //   field: "createdAt",
-  //   headerName: "Doj",
-  //   width: 230,
-  // },
+ 
   {
     field: "Email",
     headerName: "Email",
